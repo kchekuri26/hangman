@@ -68,25 +68,25 @@ public class Hangman2 {
         } catch (IOException e) {
             System.out.println(e);
         }
-        System.out.println(phraseList);
+        //System.out.println(phraseList);
 
         ArrayList<String> previousGuesses = new ArrayList<String>();
 
         String phraseToGuess = hangman.randomPhrase(phraseList);
 
-        System.out.println(phraseToGuess);
+        //System.out.println(phraseToGuess);
 
         StringBuilder hiddenWord = hangman.generateHiddenPhrase(phraseToGuess);
 
 
 
         int numOfChances = 10;
-        while (numOfChances>=1 || String.valueOf(hiddenWord)!=phraseToGuess) {
+        while (numOfChances>=1 && String.valueOf(hiddenWord).compareTo(phraseToGuess)!=0) {
             System.out.println("No. of chances remaining: " + numOfChances);
             System.out.println("Previous Guesses: " + previousGuesses);
             System.out.println("Word: " + hiddenWord);
             String userGuess = hangman.getGuess();
-            while (previousGuesses.contains(userGuess)) {
+            while (previousGuesses.contains(userGuess.toLowerCase())) {
                 System.out.println("Already guessed!! Guess Again!!");
                 userGuess = hangman.getGuess();
             }
@@ -104,6 +104,7 @@ public class Hangman2 {
                 System.out.println("Correct!! Keep it up!!");
                 System.out.println("=================================================");
             }
+
 
         }
         if (numOfChances==0) {
