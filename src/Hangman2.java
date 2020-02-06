@@ -27,30 +27,33 @@ public class Hangman2 {
     }
     //returns the initial hidden phrase.
     public StringBuilder generateHiddenPhrase(String str){
-        StringBuilder sb = new StringBuilder();
+        StringBuilder sb = new StringBuilder(str);
         for (int i=0;i<str.length();i++){
-            sb.setCharAt(i, '*');
+            if (Character.isLetter(sb.charAt(i))) {
+                sb.setCharAt(i, '*');
+            } else {
+                sb.setCharAt(i, str.charAt(i));
+            }
+
         }
         return sb;
     }
     //returns whether a letter matches and modifies the partially hidden phrase, and modifies the hidden phrase if there is a match.
     public StringBuilder processGuess(String str1, String str2, StringBuilder str3){
-        if (str2.contains(str1)){
+        if (str2.contains(str1.toLowerCase()) || str2.contains(str1.toUpperCase())){
             ArrayList<Integer> index = new ArrayList<Integer>();
             for (int i=0;i<str2.length();i++){
                 if (Character.toLowerCase(str1.charAt(0)) == Character.toLowerCase(str2.charAt(i))){
+
                     index.add(i);
                 }
             }
-            for (int i : index){
-                str3.setCharAt(i,str2.charAt(i));
+            for (int j : index){
+                str3.setCharAt(j,str2.charAt(j));
             }
-            return str3;
 
-        } else {
-            StringBuilder value = new StringBuilder("false");
-            return value;
         }
+        return str3;
     }
 
 
@@ -68,32 +71,45 @@ public class Hangman2 {
         System.out.println(phraseList);
 
         ArrayList<String> previousGuesses = new ArrayList<String>();
+
         String phraseToGuess = hangman.randomPhrase(phraseList);
+
+        System.out.println(phraseToGuess);
 
         StringBuilder hiddenWord = hangman.generateHiddenPhrase(phraseToGuess);
 
-        System.out.println("Word: " + hiddenWord);
 
-        for (int i=0; i<phraseToGuess.length(); i++) {
-            String guess = hangman.getGuess();
-            while (previousGuesses.contains(guess) == true) {
-                System.out.println("Already guessed");
-                guess = hangman.getGuess();
+
+        int numOfChances = 10;
+        while (numOfChances>=1 || String.valueOf(hiddenWord)!=phraseToGuess) {
+            System.out.println("No. of chances remaining: " + numOfChances);
+            System.out.println("Previous Guesses: " + previousGuesses);
+            System.out.println("Word: " + hiddenWord);
+            String userGuess = hangman.getGuess();
+            while (previousGuesses.contains(userGuess)) {
+                System.out.println("Already guessed!! Guess Again!!");
+                userGuess = hangman.getGuess();
             }
-            previousGuesses.add(guess);
+            previousGuesses.add(userGuess);
+            String previousHiddenWord = String.valueOf(hiddenWord);
 
-            StringBuilder result = hangman.processGuess(guess, phraseToGuess, hiddenWord );
+            hiddenWord = hangman.processGuess(userGuess, phraseToGuess, hiddenWord );
 
-            if (result == "false") {
-                System.out.println("incorrect!! Guess again!!");
-                System.out.println("Word: " + hiddenWord);
+
+            if (previousHiddenWord.equals(String.valueOf(hiddenWord))) {
+                System.out.println("Incorrect!! Try again!!");
+                System.out.println("=================================================");
+                numOfChances = numOfChances - 1;
             } else {
-                System.out.println("Correct!! Keep going!!");
-                hiddenWord = result;
-                System.out.println("Word: " + hiddenWord);
+                System.out.println("Correct!! Keep it up!!");
+                System.out.println("=================================================");
             }
 
-
+        }
+        if (numOfChances==0) {
+            System.out.println("You loose!!!");
+        } else {
+            System.out.println("You win!!!");
         }
 
 

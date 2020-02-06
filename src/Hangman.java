@@ -28,44 +28,6 @@ public class Hangman {
 
 
 
-
-        	Random random = new Random();
-			String word = phraseList.get(random.nextInt(phraseList.size()));
-			System.out.println(word);
-
-			for (int i=0;i<word.length();i++) {
-				if (word.charAt(i)==' ') {
-					hidden+=" ";
-				} else {
-					hidden+="*";
-				}
-			}
-
-			System.out.println("Sentence: " + hidden);
-
-			for (int i=0;i<chancesRemaining;i++) {
-				Scanner scanner = new Scanner(System.in);
-				System.out.println("Chances remaining: "+chancesRemaining);
-				System.out.println("Previous Guesses: "+previousGuesses);
-				System.out.print("enter guess:");
-				guess = scanner.nextLine();
-
-				for (int j=0;j<guess.length();j++) {
-					if (guess.charAt(j))
-				}
-
-				while ((guess.))
-				previousGuesses.add(guess);
-
-
-				if (word.contains(guess)) {
-					System.out.println("Correct!!");
-					int index = word.indexOf(guess);
-				}
-				System.out.println(hidden);
-
-			}
-
     	}
 
 }
