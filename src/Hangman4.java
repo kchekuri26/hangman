@@ -6,7 +6,13 @@ import java.util.List;
 import java.util.Random;
 import java.util.Scanner;
 
-public class Hangman2 {
+public class Hangman4 {
+
+    private static String userGuess;
+    private static StringBuilder hiddenWord;
+    private static String phraseToGuess;
+    private static List<String> phraseList;
+
     //gets input from user and returns it.
     public String getGuess() {
         Scanner scanner = new Scanner(System.in);
@@ -20,48 +26,46 @@ public class Hangman2 {
         return word;
     }
     //returns a single phrase randomly chosen from a list.
-    public String randomPhrase(List<String> listName){
+    public String randomPhrase(){
         Random random = new Random();
-        String word = listName.get(random.nextInt(listName.size()));
+        String word = phraseList.get(random.nextInt(phraseList.size()));
         return word;
     }
     //returns the initial hidden phrase.
-    public StringBuilder generateHiddenPhrase(String str){
-        StringBuilder sb = new StringBuilder(str);
-        for (int i=0;i<str.length();i++){
+    public StringBuilder generateHiddenPhrase(){
+        StringBuilder sb = new StringBuilder(phraseToGuess);
+        for (int i=0;i<phraseToGuess.length();i++){
             if (Character.isLetter(sb.charAt(i))) {
                 sb.setCharAt(i, '*');
             } else {
-                sb.setCharAt(i, str.charAt(i));
+                sb.setCharAt(i, phraseToGuess.charAt(i));
             }
 
         }
         return sb;
     }
     //returns whether a letter matches and modifies the partially hidden phrase, and modifies the hidden phrase if there is a match.
-    public StringBuilder processGuess(String str1, String str2, StringBuilder str3){
-        if (str2.contains(str1.toLowerCase()) || str2.contains(str1.toUpperCase())){
+    public StringBuilder processGuess(){
+        if (phraseToGuess.contains(userGuess.toLowerCase()) || phraseToGuess.contains(userGuess.toUpperCase())){
             ArrayList<Integer> index = new ArrayList<Integer>();
-            for (int i=0;i<str2.length();i++){
-                if (Character.toLowerCase(str1.charAt(0)) == Character.toLowerCase(str2.charAt(i))){
+            for (int i=0;i<phraseToGuess.length();i++){
+                if (Character.toLowerCase(userGuess.charAt(0)) == Character.toLowerCase(phraseToGuess.charAt(i))){
 
                     index.add(i);
                 }
             }
             for (int j : index){
-                str3.setCharAt(j,str2.charAt(j));
+                hiddenWord.setCharAt(j,phraseToGuess.charAt(j));
             }
 
         }
-        return str3;
+        return hiddenWord;
     }
 
-
-
     public static void main(String [] args) {
-        Hangman2 hangman = new Hangman2();
+        Hangman4 hangman = new Hangman4();
 
-        List<String> phraseList=null;
+        phraseList=null;
         // Get the phrase from a file of phrases
         try {
             phraseList = Files.readAllLines(Paths.get("phrases.txt"));
@@ -72,28 +76,32 @@ public class Hangman2 {
 
         ArrayList<String> previousGuesses = new ArrayList<String>();
 
-        String phraseToGuess = hangman.randomPhrase(phraseList);
+        phraseToGuess = hangman.randomPhrase();
 
         //System.out.println(phraseToGuess);
 
-        StringBuilder hiddenWord = hangman.generateHiddenPhrase(phraseToGuess);
+        hiddenWord = hangman.generateHiddenPhrase();
 
-
+        HangmanPlayer bot = new HangmanPlayer();
 
         int numOfChances = 10;
         while (numOfChances>=1 && String.valueOf(hiddenWord).compareTo(phraseToGuess)!=0) {
             System.out.println("No. of chances remaining: " + numOfChances);
             System.out.println("Previous Guesses: " + previousGuesses);
             System.out.println("Word: " + hiddenWord);
-            String userGuess = hangman.getGuess();
+            userGuess = bot.getBotGuess();
             while (previousGuesses.contains(userGuess.toLowerCase()) || previousGuesses.contains(userGuess.toUpperCase())) {
                 System.out.println("Already guessed!! Guess Again!!");
-                userGuess = hangman.getGuess();
+                userGuess = bot.getBotGuess();
             }
+
+            System.out.println("Bot Guess: " + userGuess);
+
             previousGuesses.add(userGuess);
+
             String previousHiddenWord = String.valueOf(hiddenWord);
 
-            hiddenWord = hangman.processGuess(userGuess, phraseToGuess, hiddenWord );
+            hiddenWord = hangman.processGuess();
 
 
             if (previousHiddenWord.equals(String.valueOf(hiddenWord))) {
@@ -116,18 +124,5 @@ public class Hangman2 {
 
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 }
+

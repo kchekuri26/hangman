@@ -93,7 +93,7 @@ public class Hangman3 {
             System.out.println("Previous Guesses: " + previousGuesses);
             System.out.println("Word: " + hiddenWord);
             userGuess = hangman.getGuess();
-            while (previousGuesses.contains(userGuess.toLowerCase())) {
+            while (previousGuesses.contains(userGuess.toLowerCase()) || previousGuesses.contains(userGuess.toUpperCase())) {
                 System.out.println("Already guessed!! Guess Again!!");
                 userGuess = hangman.getGuess();
             }

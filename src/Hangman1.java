@@ -7,12 +7,12 @@ import java.util.Random;
 import java.util.Scanner;
 
 
-public class Hangman {
+public class Hangman1 {
 
 	public static void main(String [] args) {
 
 			ArrayList<String> previousGuesses = new ArrayList<String>();
-		Hangman hangman = new Hangman();
+		Hangman1 hangman = new Hangman1();
 
         	List<String> phraseList=null;
         	// Get the phrase from a file of phrases
@@ -50,7 +50,7 @@ public class Hangman {
 					System.out.print("enter guess:");
 					userGuess = scanner.nextLine();
 				}
-				while (previousGuesses.contains(userGuess.toLowerCase())) {
+				while (previousGuesses.contains(userGuess.toLowerCase()) || previousGuesses.contains(userGuess.toUpperCase())) {
 					System.out.println("Already guessed!! Guess Again!!");
 					System.out.print("enter guess:");
 					userGuess = scanner.nextLine();
