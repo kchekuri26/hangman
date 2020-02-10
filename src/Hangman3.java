@@ -116,6 +116,7 @@ public class Hangman3 {
         }
         if (numOfChances==0) {
             System.out.println("You loose!!!");
+            System.out.println("Answer: " + phraseToGuess);
         } else {
             System.out.println("You win!!!");
         }
