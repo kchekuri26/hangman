@@ -40,13 +40,13 @@ public class Hangman1 {
 			while (numOfChances>=1 && String.valueOf(hiddenWord).compareTo(phraseToGuess)!=0) {
 				System.out.println("No. of chances remaining: " + numOfChances);
 				System.out.println("Previous Guesses: " + previousGuesses);
-				System.out.println("Word: " + hiddenWord);
+				System.out.println("Phrase: " + hiddenWord);
 
 				Scanner scanner = new Scanner(System.in);
 				System.out.print("enter guess:");
 				String userGuess = scanner.nextLine();
 				while (!Character.isLetter(userGuess.charAt(0)) || userGuess.length()>1) {
-					System.out.println("Enter a letter!!!");
+					System.out.println("Enter a single letter!!!");
 					System.out.print("enter guess:");
 					userGuess = scanner.nextLine();
 				}

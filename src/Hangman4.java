@@ -12,6 +12,7 @@ public class Hangman4 {
     private static StringBuilder hiddenWord;
     private static String phraseToGuess;
     private static List<String> phraseList;
+    private static ArrayList<String> previousGuesses;
 
     //gets input from user and returns it.
     public String getGuess() {
@@ -19,7 +20,7 @@ public class Hangman4 {
         System.out.print("enter guess:");
         String word = scanner.nextLine();
         while (!Character.isLetter(word.charAt(0)) || word.length()>1) {
-            System.out.println("Enter a letter!!!");
+            System.out.println("Enter a single letter!!!");
             System.out.print("enter guess:");
             word = scanner.nextLine();
         }
@@ -74,7 +75,7 @@ public class Hangman4 {
         }
         //System.out.println(phraseList);
 
-        ArrayList<String> previousGuesses = new ArrayList<String>();
+        previousGuesses = new ArrayList<String>();
 
         phraseToGuess = hangman.randomPhrase();
 
@@ -88,7 +89,7 @@ public class Hangman4 {
         while (numOfChances>=1 && String.valueOf(hiddenWord).compareTo(phraseToGuess)!=0) {
             System.out.println("No. of chances remaining: " + numOfChances);
             System.out.println("Previous Guesses: " + previousGuesses);
-            System.out.println("Word: " + hiddenWord);
+            System.out.println("Phrase: " + hiddenWord);
             userGuess = bot.getBotGuess();
             while (previousGuesses.contains(userGuess.toLowerCase()) || previousGuesses.contains(userGuess.toUpperCase())) {
                 System.out.println("Already guessed!! Guess Again!!");
