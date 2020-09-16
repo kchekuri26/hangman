@@ -1,2 +1,3 @@
-# HangmanStarter
-Starter code for a Hangman game. The starter code simply reads the data in "phrases.txt" into a List of String.
+# Hangman
+This is a Hangman game created using Java that can be run on a terminal.
+To play the game, run the main method of the Hangman3 class.
